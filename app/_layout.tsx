@@ -34,6 +34,8 @@ const [fontsLoaded, error] = useFonts({
     if(fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded, error]);
 
+  
+
 
   return <Stack screenOptions={{ headerShown: false }} />;
 });
