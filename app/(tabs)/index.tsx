@@ -4,6 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Fragment } from "react";
 import cn from 'clsx'
 import CartButton from "@/components/CartButton";
+import { Button } from "@react-navigation/elements";
+import * as Sentry from '@sentry/react-native'
 
 export default function Index() {
   return (
