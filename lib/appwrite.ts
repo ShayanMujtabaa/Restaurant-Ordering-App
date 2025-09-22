@@ -24,6 +24,7 @@ client
 
 export const account = new Account(client);
 export const databases = new Databases(client);
+export const storage = new Storage(client)
 const avatars = new Avatars(client);
 
 export const createUser = async ({ email, password, name }: CreateUserParams) => {
