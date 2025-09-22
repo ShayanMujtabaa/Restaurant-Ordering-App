@@ -7,7 +7,12 @@ platform: "com.itech.martorderingtest",
 projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
 projectName: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_NAME,
 databaseId: '68c8bde4002590f6f270',
-userCollectionId: 'user'
+bucketId: '68d09298001bbf91e1f8',
+userCollectionId: 'user',
+categoriesCollectionId: 'categories',
+itemsCollectionId: 'items',
+customizationsCollectionId: 'customizations',
+itemsCustomizationsCollectionId: 'items_customizations',
 }
 
 export const client = new Client();
