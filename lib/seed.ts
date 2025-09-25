@@ -13,7 +13,7 @@ interface Customization {
     type: "topping" | "side" | "size" | "crust" | string; // extend as needed
 }
 
-interface MenuItem {
+interface items {
     name: string;
     description: string;
     image_url: string;
@@ -28,7 +28,7 @@ interface MenuItem {
 interface DummyData {
     categories: Category[];
     customizations: Customization[];
-    items: MenuItem[];
+    items: items[];
 }
 
 // ensure dummyData has correct shape
@@ -57,25 +57,63 @@ async function clearStorage(): Promise<void> {
     );
 }
 
+// async function uploadImageToStorage(imageUrl: string) {
+//     const response = await fetch(imageUrl);
+//     const blob = await response.blob();
+
+//     const fileObj = {
+//         name: imageUrl.split("/").pop() || `file-${Date.now()}.jpg`,
+//         type: blob.type,
+//         size: blob.size,
+//         uri: imageUrl,
+//     };
+
+//     const file = await storage.createFile(
+//         appwriteConfig.bucketId,
+//         ID.unique(),
+//         fileObj
+//     );
+
+//     return storage.getFileViewURL(appwriteConfig.bucketId, file.$id);
+// }
+
+
 async function uploadImageToStorage(imageUrl: string) {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
-
-    const fileObj = {
-        name: imageUrl.split("/").pop() || `file-${Date.now()}.jpg`,
-        type: blob.type,
-        size: blob.size,
-        uri: imageUrl,
-    };
-
-    const file = await storage.createFile(
-        appwriteConfig.bucketId,
-        ID.unique(),
-        fileObj
-    );
-
-    return storage.getFileViewURL(appwriteConfig.bucketId, file.$id);
+    try {
+        console.log('Uploading image:', imageUrl);
+        
+        // For React Native, we need to use a different approach
+        // Create a file object with the URL directly (no blob conversion)
+        const fileName = imageUrl.split("/").pop() || `file-${Date.now()}.png`;
+        
+        const fileObject = {
+            name: fileName,
+            type: 'image/png',
+            size: 0, // Let Appwrite handle the size
+            uri: imageUrl, // Direct URL - Appwrite will fetch it
+        };
+        
+        console.log('Created file object:', fileObject);
+        
+        // Upload to Appwrite storage using the file object with URI
+        const uploadedFile = await storage.createFile(
+            appwriteConfig.bucketId,
+            ID.unique(),
+            fileObject // Pass the file object with URI
+        );
+        
+        console.log('Upload successful, file ID:', uploadedFile.$id);
+        
+        // Return the file view URL
+        return storage.getFileViewURL(appwriteConfig.bucketId, uploadedFile.$id);
+        
+    } catch (error) {
+        console.error('Upload failed:', error);
+        throw error;
+    }
 }
+
+
 
 async function seed(): Promise<void> {
     // 1. Clear all
