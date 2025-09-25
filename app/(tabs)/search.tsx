@@ -7,10 +7,6 @@ const search = () => {
   return (
     <SafeAreaView>
       <Text>Search</Text>
-      <Button title="Seed" onPress={() => {
-    console.log("👉 Seed button pressed");
-    seed().catch((error) => console.log("Failed to seed", error));
-  }}  />
     </SafeAreaView>
   )
 }
